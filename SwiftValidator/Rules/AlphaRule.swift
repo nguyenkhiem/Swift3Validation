@@ -12,7 +12,7 @@ import Foundation
  `AlphaRule` is a subclass of `CharacterSetRule`. It is used to verify that a field has a
  valid list of alpha characters.
  */
-open class AlphaRule: CharacterSetRule {
+public class AlphaRule: CharacterSetRule {
     
     /**
      Initializes an `AlphaRule` object to verify that a field has valid set of alpha characters.
@@ -21,6 +21,6 @@ open class AlphaRule: CharacterSetRule {
      - returns: An initialized object, or nil if an object could not be created for some reason.
      */
     public init(message: String = "Enter valid alphabetic characters") {
-        super.init(characterSet: CharacterSet.letters, message: message)
+        super.init(characterSet: NSCharacterSet.letterCharacterSet(), message: message)
     }
 }

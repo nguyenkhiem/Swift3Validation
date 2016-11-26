@@ -9,11 +9,11 @@
 import Foundation
 
 /**
- `RequiredRule` is a subclass of Rule that defines how a required field is validated.
+ `RequiredRule` is a subclass of Rule that defines how a required text field is validated.
  */
-open class RequiredRule: Rule {
+public class RequiredRule: Rule {
     /// String that holds error message.
-    fileprivate var message : String 
+    private var message : String 
     
     /**
      Initializes `RequiredRule` object with error message. Used to validate a field that requires text.
@@ -26,12 +26,12 @@ open class RequiredRule: Rule {
     }
     
     /**
-     Validates a field.
+     Validates a text field.
      
      - parameter value: String to checked for validation.
      - returns: Boolean value. True if validation is successful; False if validation fails.
      */
-    open func validate(_ value: String) -> Bool {
+    public func validate(value: String) -> Bool {
         return !value.isEmpty
     }
     
@@ -40,7 +40,7 @@ open class RequiredRule: Rule {
      
      - returns: String of error message.
      */
-    open func errorMessage() -> String {
+    public func errorMessage() -> String {
         return message
     }
 }

@@ -11,11 +11,11 @@ import Foundation
 /**
  `CharacterSetRule` is a subclass of `Rule`. It is used to validate IPV4 address fields.
  */
-open class CharacterSetRule: Rule {
+public class CharacterSetRule: Rule {
     /// NSCharacter that hold set of valid characters to hold
-    fileprivate let characterSet: CharacterSet
+    private let characterSet: NSCharacterSet
     /// String that holds error message
-    fileprivate var message: String
+    private var message: String
     
     /**
      Initializes a `CharacterSetRule` object to verify that field has valid set of characters.
@@ -24,7 +24,7 @@ open class CharacterSetRule: Rule {
      - parameter message: String of error message.
      - returns: An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
      */
-    public init(characterSet: CharacterSet, message: String = "Enter valid alpha") {
+    public init(characterSet: NSCharacterSet, message: String = "Enter valid alpha") {
         self.characterSet = characterSet
         self.message = message
     }
@@ -35,9 +35,9 @@ open class CharacterSetRule: Rule {
      - parameter value: String to checked for validation.
      - returns: Boolean value. True if validation is successful; False if validation fails.
      */
-    open func validate(_ value: String) -> Bool {
+    public func validate(value: String) -> Bool {
         for uni in value.unicodeScalars {
-            if !characterSet.contains(UnicodeScalar(uni.value)!) {
+            if !characterSet.longCharacterIsMember(uni.value) {
                 return false
             }
         }
@@ -45,11 +45,11 @@ open class CharacterSetRule: Rule {
     }
     
     /**
-     Displays error message when field fails validation.
+     Displays error message when text field fails validation.
      
      - returns: String of error message.
      */
-    open func errorMessage() -> String {
+    public func errorMessage() -> String {
         return message
     }
 }

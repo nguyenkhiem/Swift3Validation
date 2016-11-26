@@ -11,12 +11,12 @@ import Foundation
 /**
  `FloatRule` is a subclass of Rule that defines how check if a value is a floating point value.
  */
-open class FloatRule:Rule {
+public class FloatRule:Rule {
     /// Error message to be displayed if validation fails.
-    fileprivate var message : String
+    private var message : String
     
     /**
-     Initializes a `FloatRule` object to validate that the text of a field is a floating point number.
+     Initializes a `FloatRule` object to validate that the text of a text field is a floating point number.
      
      - parameter message: String of error message.
      - returns: An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
@@ -26,26 +26,26 @@ open class FloatRule:Rule {
     }
     
     /**
-     Used to validate field.
+     Used to validate text field.
      
      - parameter value: String to checked for validation.
      - returns: Boolean value. True if validation is successful; False if validation fails.
      */
-    open func validate(_ value: String) -> Bool {
+    public func validate(value: String) -> Bool {
         let regex = try? NSRegularExpression(pattern: "^[-+]?(\\d*[.])?\\d+$", options: [])
         if let regex = regex {
-            let match = regex.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.characters.count))
+            let match = regex.numberOfMatchesInString(value, options: [], range: NSRange(location: 0, length: value.characters.count))
             return match == 1
         }
         return false
     }
     
     /**
-     Displays error message when field fails validation.
+     Displays error message when text field fails validation.
      
      - returns: String of error message.
      */
-    open func errorMessage() -> String {
+    public func errorMessage() -> String {
         return message
     }
 }

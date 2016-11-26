@@ -11,7 +11,7 @@ import UIKit
 /**
  Protocol for `ValidationDelegate` adherents, which comes with two required methods that are called depending on whether validation succeeded or failed.
  */
-public protocol ValidationDelegate {
+@objc public protocol ValidationDelegate {
     /**
      This method will be called on delegate object when validation is successful.
      
@@ -23,5 +23,5 @@ public protocol ValidationDelegate {
      
      - returns: No return value.
      */
-    func validationFailed(_ errors: [(Validatable, ValidationError)])
+    func validationFailed(errors: [UITextField:ValidationError])
 }

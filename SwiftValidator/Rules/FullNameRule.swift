@@ -10,12 +10,12 @@ import Foundation
 /**
  `FullNameRule` is a subclass of Rule that defines how a full name is validated.
  */
-open class FullNameRule : Rule {
+public class FullNameRule : Rule {
     /// Error message to be displayed if validation fails.
-    fileprivate var message : String
+    private var message : String
     
     /**
-     Initializes a `FullNameRule` object that is used to verify that text in field is a full name.
+     Initializes a `FullNameRule` object that is used to verify that text in text field is a full name.
      
      - parameter message: String of error message.
      - returns: An initialized `FullNameRule` object, or nil if an object could not be created for some reason that would not result in an exception.
@@ -25,22 +25,22 @@ open class FullNameRule : Rule {
     }
     
     /**
-     Used to validate a field.
+     Used to validate a text field.
      
      - parameter value: String to checked for validation.
      - returns: A boolean value. True if validation is successful; False if validation fails.
      */
-    open func validate(_ value: String) -> Bool {
+    public func validate(value: String) -> Bool {
         let nameArray: [String] = value.characters.split { $0 == " " }.map { String($0) }
         return nameArray.count >= 2
     }
     
     /**
-     Used to display error message of a field that has failed validation.
+     Used to display error message of a text field that has failed validation.
      
      - returns: String of error message.
      */
-    open func errorMessage() -> String {
+    public func errorMessage() -> String {
         return message
     }
 }

@@ -21,13 +21,10 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, "8.1"
 
 use_frameworks!
-
-# As of 4.0.0, SwiftValidator has been extended beyond UITextField
-# Note: Installing 4.x.x will break code from 3.x.x
-pod 'SwiftValidator', :git => 'https://github.com/jpotts18/SwiftValidator.git', :tag => '4.0.0'
-
-# For older versions
-pod 'SwiftValidator', :git => 'https://github.com/jpotts18/SwiftValidator.git', :tag => '3.0.5'
+# For SwiftValidator tag 3.0.3
+pod 'SwiftValidator', '3.0.3'
+# Recommended: For the most recent version of SwiftValidator (master branch)
+pod 'SwiftValidator', :git => 'https://github.com/jpotts18/SwiftValidator.git', :branch => 'master'
 ```
 
 Install into your project:
@@ -89,7 +86,7 @@ Validate Fields on button tap or however you would like to trigger it.
 
 ```swift
 @IBAction func signupTapped(sender: AnyObject) {
-	validator.validate(self)
+	validator.validate(delegate:self)
 }
 ```
 
@@ -102,13 +99,11 @@ func validationSuccessful() {
 	// submit the form
 }
 
-func validationFailed(errors:[(Validatable ,ValidationError)]) {
+func validationFailed(errors:[UITextField:ValidationError]) {
 	// turn the fields to red
-	for (field, error) in errors {
-		if let field = field as? UITextField {
-			field.layer.borderColor = UIColor.redColor().CGColor
-			field.layer.borderWidth = 1.0		
-		}
+	for (field, error) in validator.errors {
+		field.layer.borderColor = UIColor.redColor().CGColor
+		field.layer.borderWidth = 1.0
 		error.errorLabel?.text = error.errorMessage // works if you added labels
 		error.errorLabel?.hidden = false
 	}
@@ -160,8 +155,7 @@ Checkout the docs <a href="http://jpotts18.github.io/SwiftValidator/">here</a> v
 Credits
 -------
 
-Swift Validator is written and maintained by Jeff Potter [@jpotts18](http://twitter.com/jpotts18). David Patterson [@dave_tw12](http://twitter.com/dave_tw12) actively works as a collaborator. Special thanks to [Deniz Adalar](https://github.com/dadalar) for
-adding validation beyond UITextField.
+Swift Validator is written and maintained by Jeff Potter [@jpotts18](http://twitter.com/jpotts18). David Patterson [@dave_tw12](http://twitter.com/dave_tw12) actively works as a collaborator.
 
 ## Contributing
 

@@ -9,37 +9,36 @@ import Foundation
 import UIKit
 
 /**
- `ValidationRule` is a class that creates an object which holds validation info of a field.
+ `ValidationRule` is a class that creates an object which holds validation info of a text field.
  */
-open class ValidationRule {
-    /// the field of the field
-    open var field:ValidatableField
+public class ValidationRule {
+    /// the text field of the field
+    public var textField:UITextField
     /// the errorLabel of the field
-    open var errorLabel:UILabel?
+    public var errorLabel:UILabel?
     /// the rules of the field
-    open var rules:[Rule] = []
+    public var rules:[Rule] = []
     
     /**
-     Initializes `ValidationRule` instance with field, rules, and errorLabel.
+     Initializes `ValidationRule` instance with text field, rules, and errorLabel.
      
-     - parameter field: field that holds actual text in field.
-     - parameter errorLabel: label that holds error label of field.
-     - parameter rules: array of Rule objects, which field will be validated against.
+     - parameter textField: text field that holds actual text in text field.
+     - parameter errorLabel: label that holds error label of text field.
+     - parameter rules: array of Rule objects, which text field will be validated against.
      - returns: An initialized `ValidationRule` object, or nil if an object could not be created for some reason that would not result in an exception.
      */
-    public init(field: ValidatableField, rules:[Rule], errorLabel:UILabel?){
-        self.field = field
+    public init(textField: UITextField, rules:[Rule], errorLabel:UILabel?){
+        self.textField = textField
         self.errorLabel = errorLabel
         self.rules = rules
     }
     
     /**
-     Used to validate field against its validation rules.
+     Used to validate text field against its validation rules.
      - returns: `ValidationError` object if at least one error is found. Nil is returned if there are no validation errors.
      */
-    open func validateField() -> ValidationError? {
-        return rules.filter{
-            return !$0.validate(field.validationText ?? "")
-            }.map{ rule -> ValidationError in return ValidationError(field: self.field, errorLabel:self.errorLabel, error: rule.errorMessage()) }.first
+    public func validateField() -> ValidationError? {
+        return rules.filter{ !$0.validate(self.textField.text ?? "") }
+                    .map{ rule -> ValidationError in return ValidationError(textField: self.textField, errorLabel:self.errorLabel, error: rule.errorMessage()) }.first
     }
 }

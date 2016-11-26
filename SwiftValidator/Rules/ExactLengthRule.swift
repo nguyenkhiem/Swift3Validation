@@ -9,16 +9,16 @@
 import Foundation
 
 /**
- `ExactLengthRule` is a subclass of Rule that is used to make sure a the text of a field is an exact length.
+ `ExactLengthRule` is a subclass of Rule that is used to make sure a the text of a text field is an exact length.
  */
-open class ExactLengthRule : Rule {
+public class ExactLengthRule : Rule {
     /// parameter message: String of error message.
-    fileprivate var message : String = "Must be at most 16 characters long"
+    private var message : String = "Must be at most 16 characters long"
     /// parameter length: Integer value string length
-    fileprivate var length : Int
+    private var length : Int
     
     /**
-     Initializes an `ExactLengthRule` object to validate the text of a field against an exact length.
+     Initializes an `ExactLengthRule` object to validate the text of a text field against an exact length.
      
      - parameter length: Integer value of exact string length being specified.
      - parameter message: String of error message.
@@ -26,25 +26,25 @@ open class ExactLengthRule : Rule {
      */
     public init(length: Int, message : String = "Must be exactly %ld characters long"){
         self.length = length
-        self.message = NSString(format: message as NSString, self.length) as String
+        self.message = NSString(format: message, self.length) as String
     }
     
     /**
-     Used to validate a field.
+     Used to validate a text field.
      
      - parameter value: String to checked for validation.
      - returns: A boolean value. True if validation is successful; False if validation fails.
      */
-    open func validate(_ value: String) -> Bool {
+    public func validate(value: String) -> Bool {
         return value.characters.count == length
     }
     
     /**
-     Displays error message if a field fails validation.
+     Displays error message if a text field fails validation.
      
      - returns: String of error message.
      */
-    open func errorMessage() -> String {
+    public func errorMessage() -> String {
         return message
     }
 }

@@ -12,15 +12,15 @@ import UIKit
  Class that makes `Validator` objects. Should be added as a parameter to ViewController that will display
  validation fields.
  */
-public class Validator {
+open class Validator {
     /// Dictionary to hold all fields (and accompanying rules) that will undergo validation.
-    public var validations = [UITextField:ValidationRule]()
+    open var validations = [UITextField:ValidationRule]()
     /// Dictionary to hold fields (and accompanying errors) that were unsuccessfully validated.
-    public var errors = [UITextField:ValidationError]()
+    open var errors = [UITextField:ValidationError]()
      /// Variable that holds success closure to display positive status of field.
-    private var successStyleTransform:((validationRule:ValidationRule)->Void)?
+    fileprivate var successStyleTransform:((_ validationRule:ValidationRule)->Void)?
     /// Variable that holds error closure to display negative status of field.
-    private var errorStyleTransform:((validationError:ValidationError)->Void)?
+    fileprivate var errorStyleTransform:((_ validationError:ValidationError)->Void)?
     /// - returns: An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
     public init(){}
     
@@ -32,7 +32,7 @@ public class Validator {
     
     - returns: No return value.
     */
-    private func validateAllFields() {
+    fileprivate func validateAllFields() {
         
         errors = [:]
         
@@ -42,13 +42,13 @@ public class Validator {
                 
                 // let the user transform the field if they want
                 if let transform = self.errorStyleTransform {
-                    transform(validationError: error)
+                    transform(error)
                 }
             } else {
                 // No error
                 // let the user transform the field if they want
                 if let transform = self.successStyleTransform {
-                    transform(validationRule: rule)
+                    transform(rule)
                 }
             }
         }
@@ -63,22 +63,22 @@ public class Validator {
     - parameter textField: Holds validator field data.
     - returns: No return value.
     */
-    public func validateField(textField: UITextField, callback: (error:ValidationError?) -> Void){
+    open func validateField(_ textField: UITextField, callback: (_ error:ValidationError?) -> Void){
         if let fieldRule = validations[textField] {
             if let error = fieldRule.validateField() {
                 errors[textField] = error
                 if let transform = self.errorStyleTransform {
-                    transform(validationError: error)
+                    transform(error)
                 }
-                callback(error: error)
+                callback(error)
             } else {
                 if let transform = self.successStyleTransform {
-                    transform(validationRule: fieldRule)
+                    transform(fieldRule)
                 }
-                callback(error: nil)
+                callback(nil)
             }
         } else {
-            callback(error: nil)
+            callback(nil)
         }
     }
     
@@ -91,7 +91,7 @@ public class Validator {
     - parameter error: A closure which is called with validationError, an object that holds validation error data
     - returns: No return value
     */
-    public func styleTransformers(success success:((validationRule:ValidationRule)->Void)?, error:((validationError:ValidationError)->Void)?) {
+    open func styleTransformers(success:((_ validationRule:ValidationRule)->Void)?, error:((_ validationError:ValidationError)->Void)?) {
         self.successStyleTransform = success
         self.errorStyleTransform = error
     }
@@ -103,7 +103,7 @@ public class Validator {
      - parameter Rule: An array which holds different rules to validate against textField.
      - returns: No return value
      */
-    public func registerField(textField:UITextField, rules:[Rule]) {
+    open func registerField(_ textField:UITextField, rules:[Rule]) {
         validations[textField] = ValidationRule(textField: textField, rules: rules, errorLabel: nil)
     }
     
@@ -115,7 +115,7 @@ public class Validator {
      - parameter rules: A Rule array that holds different rules that apply to said textField.
      - returns: No return value
      */
-    public func registerField(textField:UITextField, errorLabel:UILabel, rules:[Rule]) {
+    open func registerField(_ textField:UITextField, errorLabel:UILabel, rules:[Rule]) {
         validations[textField] = ValidationRule(textField: textField, rules:rules, errorLabel:errorLabel)
     }
     
@@ -125,9 +125,9 @@ public class Validator {
      - parameter textField: field used to locate and remove textField from validator.
      - returns: No return value
      */
-    public func unregisterField(textField:UITextField) {
-        validations.removeValueForKey(textField)
-        errors.removeValueForKey(textField)
+    open func unregisterField(_ textField:UITextField) {
+        validations.removeValue(forKey: textField)
+        errors.removeValue(forKey: textField)
     }
     
     /**
@@ -135,7 +135,7 @@ public class Validator {
      
      - returns: No return value.
      */
-    public func validate(delegate:ValidationDelegate) {
+    open func validate(_ delegate:ValidationDelegate) {
         
         self.validateAllFields()
         
@@ -153,10 +153,10 @@ public class Validator {
      - parameter callback: A closure which is called with errors, a dictionary of type UITextField:ValidationError.
      - returns: No return value.
      */
-    public func validate(callback:(errors:[UITextField:ValidationError])->Void) -> Void {
+    open func validate(_ callback:(_ errors:[UITextField:ValidationError])->Void) -> Void {
         
         self.validateAllFields()
         
-        callback(errors: errors)
+        callback(errors)
     }
 }

@@ -23,5 +23,5 @@ import UIKit
      
      - returns: No return value.
      */
-    func validationFailed(errors: [UITextField:ValidationError])
+    func validationFailed(_ errors: [UITextField:ValidationError])
 }
